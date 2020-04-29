@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use  App\User;
+use  App\Entities\User;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -65,6 +65,5 @@ class AuthController extends Controller
 
         return $this->respondWithToken($token);
     }
-
 
 }
