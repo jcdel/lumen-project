@@ -98,6 +98,7 @@ $app->routeMiddleware([
 // Add this line
     $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
     $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+    $app->register(Fruitcake\Cors\CorsServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
