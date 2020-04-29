@@ -1,10 +1,7 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-
-use App\Entities\Comment;
-use App\Entities\User;
 use Faker\Generator as Faker;
+use App\Entities\Comment;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +17,5 @@ use Faker\Generator as Faker;
 $factory->define(Comment::class, function (Faker $faker) {
     return [
         'text' => $faker->sentence(),
-        'user_id' => User::all()->random()->id,
-        'post_id' => User::all()->random()->id
     ];
 });

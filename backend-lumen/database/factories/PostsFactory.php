@@ -22,6 +22,6 @@ $factory->define(Post::class, function (Faker $faker) {
         'title' => $faker->sentence(3),
         'text' => $faker->text(3000),
         'image' => $faker->imageUrl($width = 1900, $height = 840),
-        'user_id' => User::all()->random()->id
+        'user_id' => User::latest()->first()
     ];
 });
