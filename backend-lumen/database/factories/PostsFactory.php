@@ -2,6 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
+use App\Entities\Post;
 use App\Entities\User;
 use Faker\Generator as Faker;
 
@@ -16,9 +17,11 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(User::class, function (Faker $faker) {
+$factory->define(Post::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->email,
+        'title' => $faker->sentence(3),
+        'text' => $faker->text(3000),
+        'image' => $faker->imageUrl($width = 1900, $height = 840),
+        'user_id' => User::all()->random()->id
     ];
 });
