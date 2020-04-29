@@ -15,19 +15,47 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-// API route group
 $router->group(['prefix' => 'api/v1'], function () use ($router) {
 
-    $router->post('register', 'AuthController@register');
-    $router->post('login', 'AuthController@login');
+    $router->post('auth/register', 'Auth\AuthController@register');
+    $router->post('auth/login', 'Auth\AuthController@login');
 
-    // Access for Authenticated Users Only
-    $router->group(['middleware' => 'auth'], function () use ($router) {
+    Route::group(['middleware' => 'auth:api'], function () use ($router) {
         
-        $router->get('current-user', 'UserController@currentUser');
-        $router->get('users/{id}', 'UserController@singleUser');
-        $router->get('users', 'UserController@allUsers');
-        $router->delete('users/{id}', 'UserController@deleteUser');
-     });
+        Route::group(['namespace' => 'Auth'], function () use ($router) {
+
+            $router->get('auth/me', 'AuthController@me');
+            $router->post('auth/logout', 'AuthController@logout');
+        });
+
+        Route::group(['namespace' => 'Api'], function () use ($router) {
+
+            $router->group(['prefix' => 'users'], function () use ($router) {
+    
+                $router->get('/current', 'UserController@currentUser');
+                $router->get('/{id}', 'UserController@singleUser');
+                $router->get('/', 'UserController@allUsers');
+                $router->delete('/{id}', 'UserController@deleteUser');
+        
+            });
+            
+            $router->group(['prefix' => 'posts'], function () use ($router) {
+        
+                // $router->get('/my', 'PostController@getUserPosts');
+        
+                // $router->get('/', 'PostController@index');
+                // $router->get('/{id}', 'PostController@show');
+                // $router->put('/{id}', 'PostController@update');
+                // $router->delete('/{id}', 'PostController@delete');
+                // $router->post('/', 'PostController@store');
+        
+                // $router->get('/{id}/comments', 'CommentController@index');
+                // $router->post('/{id}/comments', 'CommentController@store');
+        
+            });
+    
+        });
+
+    });
 
 });
