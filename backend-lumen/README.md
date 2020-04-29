@@ -1,24 +1,68 @@
-# Lumen PHP Framework
+## Lumen Rest Api Using Vue, React and Angular
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://poser.pugx.org/laravel/lumen-framework/d/total.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/lumen-framework/v/stable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://packagist.org/packages/laravel/lumen-framework)
+Technologies used:
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+### LUMEN:Backend
+  - [Lumen 7.0](https://lumen.laravel.com/docs/7.x)
+  - [JWT Authentication](https://github.com/tymondesigns/jwt-auth)
+  - [Laravel-cors](https://github.com/fruitcake/laravel-cors)
+  - [Lumen Generator](https://packagist.org/packages/flipbox/lumen-generator)
 
-## Official Documentation
+### VUE:Frontend
+  - [Vue v2.6.11](https://vuejs.org/)
+  - [Vue Router](https://router.vuejs.org/)
+  - [Vuex](https://vuex.vuejs.org/)
+  - [Vue Cli 3](https://cli.vuejs.org/)
+  - [Laravel-vue-pagination](https://github.com/gilbitron/laravel-vue-pagination)
+  - [Bootstrap-vue](https://bootstrap-vue.js.org/)
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+### React:Frontend
+  - [React v16.13.1](https://reactjs.org/)
 
-## Contributing
 
-Thank you for considering contributing to Lumen! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Angular:Frontend
+  - [Angular v9.1.3](https://angular.io/)
 
-## Security Vulnerabilities
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
 
-## License
+### Usage Instruction:
 
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Run Lumen Rest API:
+
+```bash
+cd backend-lumen
+composer install
+# configure your key, database, etc in `.env` file
+php artisan migrate --seed
+# generate jwt token
+php artisan jwt:secret
+php artisan serve
+```
+
+Run Vue:
+
+```bash
+cd frontend-vue
+npm install
+npm run serve
+```
+Run React:
+
+```bash
+cd frontend-react
+npm install
+npm start
+```
+
+Run Angular:
+
+```bash
+cd frontend-angular
+npm install
+ng serve -o
+```
+
+Login credentials for testing the API:
+
+Login: jc@mail.com
+Password: admin
