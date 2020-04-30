@@ -6,10 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Entities\Comment;
 use App\Http\Resources\Comment\Comment as CommentResource;
 use App\Http\Resources\Comment\CommentCollection;
+use App\Repositories\CommentRepositoryInterface;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
+    private $comment;
+
+    public function __construct(CommentRepositoryInterface $comment)
+    {
+        $this->comment = $comment;
+    }
 
     /**
      * Display the specified resource.
@@ -19,7 +26,7 @@ class CommentController extends Controller
     */
     public function show($post_id)
     {
-        return  new CommentCollection(Comment::where('post_id',$post_id)->get());
+        return  new CommentCollection($this->comment->getPostsComments($post_id));
     }
 
     /**
@@ -36,14 +43,17 @@ class CommentController extends Controller
             'text' => 'required'
         ]);
         
-        $comment = Comment::create([
-            'user_id' => $request->user_id,
-            'post_id' => $post_id,
-            'text' => $request->text,
-        ]);
-        
-        return new CommentResource($comment);
+        $comment = $this->comment->save(
+            new Comment(
+                [
+                    'user_id' => $request->user_id,
+                    'post_id' => $post_id,
+                    'text' => $request->text
+                ]
+            )
+        );
 
+        return new CommentResource($comment);
     }
 
 }

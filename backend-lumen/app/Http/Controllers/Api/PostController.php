@@ -6,11 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Entities\Post;
 use App\Http\Resources\Post\Post as PostResource;
 use App\Http\Resources\Post\PostCollection;
+use App\Repositories\PostRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+    private $post;
+
+    public function __construct(PostRepositoryInterface $post)
+    {
+        $this->post = $post;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +26,7 @@ class PostController extends Controller
     */
     public function index()
     {
-        return  new PostCollection(Post::paginate(10));
+        return  new PostCollection($this->post->getPosts());
     }
 
      /**
@@ -29,7 +37,7 @@ class PostController extends Controller
     */
     public function getUserPosts()
     {
-        return  new PostCollection(Post::where('user_id', Auth::id())->paginate());
+        return  new PostCollection($this->post->getPostByUserId(Auth::id()));
     }
 
      /**
@@ -47,13 +55,16 @@ class PostController extends Controller
             'image' => 'required'
         ]);
         
-        $post = Post::create([
-            'user_id' => $request->user_id,
-            'title' => $request->title,
-            'text' => $request->text,
-            'image' => $request->image
-        ]);
-        
+        $post = $this->post->save(
+            new Post(
+                [
+                    'user_id' => $request->user_id,
+                    'title' => $request->title,
+                    'text' => $request->text,
+                    'image' => $request->image
+                ]
+            )
+        );
         return new PostResource($post);
     }
 
@@ -70,7 +81,7 @@ class PostController extends Controller
         if(!$post)
             return response()->json(['message' => 'post not found!'], 404);
 
-        return new PostResource($post);
+        return new PostResource($this->post->getPost($id));
     }
 
     /**
@@ -93,10 +104,8 @@ class PostController extends Controller
 
             $post->title = $request->title;
             $post->text = $request->text;
-            $post->save();
 
-            return new PostResource($post);
-
+            return new PostResource($this->post->save($post));
         } else {
             return response()->json(['error' => 'You are not allowed to update this post.'], 403);
         }
@@ -114,7 +123,7 @@ class PostController extends Controller
 
         if (Auth::user()->can('delete', $post)) {
 
-            Post::destroy($id);
+            $this->post->delete($id);
             return response()->json(['message'  => 'Post has been successfully deleted.'], 200);
         } else {
             return response()->json(['message' => 'You are not allowed to delete this post.'], 403);

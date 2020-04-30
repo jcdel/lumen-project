@@ -7,9 +7,16 @@ use Illuminate\Support\Facades\Auth;
 use App\Entities\User;
 use App\Http\Resources\User\User as UserResource;
 use App\Http\Resources\User\UserCollection;
+use App\Repositories\UserRepositoryInterface;
 
 class UserController extends Controller
 {
+    private $user;
+
+    public function __construct(UserRepositoryInterface $user)
+    {
+        $this->user = $user;
+    }
 
     /**
      * Get all User.
@@ -18,7 +25,7 @@ class UserController extends Controller
     */
     public function allUsers()
     {
-        return new UserCollection(User::all());
+        return new UserCollection($this->user->getUsers());
     }
 
     /**
@@ -33,7 +40,7 @@ class UserController extends Controller
         if(!$user)
             return response()->json(['message' => 'user not found!'], 404);
 
-        return new UserResource(User::findOrFail($id));
+        return new UserResource($this->user->getUserById($id));
     }
 
     /**
@@ -49,7 +56,7 @@ class UserController extends Controller
         if(!$user)
             return response()->json(['message' => 'user not found!'], 404);
 
-        $user->delete();
+        $this->user->deleteUserById($id);
         return response()->json(['message'  => "User has been successfully deleted.",], 200);
     }
 
