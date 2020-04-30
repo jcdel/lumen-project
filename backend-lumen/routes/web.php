@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -25,6 +27,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
         Route::group(['namespace' => 'Auth'], function () use ($router) {
 
             $router->post('auth/logout', 'AuthController@logout');
+            $router->get('auth/me', 'AuthController@me');
         });
 
         Route::group(['namespace' => 'Api'], function () use ($router) {
