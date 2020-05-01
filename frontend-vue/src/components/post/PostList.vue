@@ -8,7 +8,7 @@
                     </div>
                     <div class="card-desc">
                         <div class="small m-b-xs text-left">
-                            <strong>{{ post.author_name }}</strong> <span class="text-muted"><i class="fa fa-clock-o"></i> {{ post.created_at }}</span>
+                            <span class="text-muted"><i class="fa fa-clock"></i> {{ post.created_at }}</span> by <strong>{{ post.author_name }}</strong> 
                         </div>
                         <h3><router-link :to="{ name: 'SinglePost', params: { id: post.id }}">{{ post.title }}</router-link></h3>
                         <p class="post-text">{{ post.text }}</p>

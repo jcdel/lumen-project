@@ -1,4 +1,4 @@
-import StorageService from '../../../services/common/storageService';
+import StorageService from '@/services/common/storageService';
 
 export default {
 

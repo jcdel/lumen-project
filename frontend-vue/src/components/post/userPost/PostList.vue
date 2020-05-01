@@ -8,7 +8,7 @@
 
                 <div class="row">
                     <div class="col-md-12 post-header-line text-left">
-                        {{ post.created_at }}
+                        <i class="fa fa-clock"></i> {{ post.created_at }}
                     </div>
                 </div>
                 <div class="row post-content">
@@ -17,13 +17,15 @@
 
                     </div>
                     <div class="col-md-9">
-                        <h5>{{ post.title }}</h5>
+                        <h5><router-link :to="{ name: 'SinglePost', params: { id: post.id }}">{{ post.title }}</router-link></h5>
                         <p class="post-text">{{ post.text }}</p>
                         <div class="btns-block">
-                            <button type="button" class="btn btn-primary">
-                                <router-link :to="{ name: 'EditPost', params: { id: post.id }}">Edit
-                                </router-link>
-                            </button>
+                            <router-link :to="{ name: 'SinglePost', params: { id: post.id }}">
+                                <button type="button" class="btn btn-primary"> View </button>
+                            </router-link>
+                            <router-link :to="{ name: 'EditPost', params: { id: post.id }}">
+                                <button type="button" class="btn btn-success"> Edit </button>
+                            </router-link>
                             <button type="button" class="btn btn-danger" @click="onDelete(post.id)">
                                 Delete
                             </button>
@@ -35,11 +37,13 @@
 
         </div>
 
+        <pagination  :data="userPosts" @pagination-change-page="loadPosts"></pagination>
     </div>
 </template>
 
 <script>
     import {mapActions, mapState} from 'vuex';
+    import pagination from 'laravel-vue-pagination';
 
     export default {
         name: 'UserPostList',
@@ -59,9 +63,17 @@
             onDelete(post_id) {
                 this.deletePost(post_id);
             },
+
+             loadPosts(page = 1) {
+                this.$store.dispatch('post/getPostsByUser',page);
+            }
         },
         created: function () {
             this.$store.dispatch('post/getPostsByUser');
+        },
+
+        components: {
+            pagination
         },
 
     };

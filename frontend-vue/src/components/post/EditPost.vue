@@ -1,20 +1,24 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-8">
                 <form action="" name="post-edit" v-on:submit.prevent="onUpdate">
+                    <p v-if="errors.length">
+                        <b>Please correct the following error(s):</b>
+                        <ul>
+                            <li class="alert alert-danger" role="alert" v-for="error in errors" v-bind:key="error" v-bind:error="error">{{ error }}</li>
+                        </ul>
+                    </p>
                     <div class="form-group">
                         <label for="title">Title</label>
-                        <input type="text" :value="post.title" id="title" @input="updatePostTitle"
+                        <input type="text" id="title" v-model="post.title" @input="updatePostTitle"
                                class="form-control"/>
                     </div>
                     <div class="form-group">
                         <label for="post_text">Text</label>
-                        <textarea class="form-control" rows="25" cols="5" @input="updatePostText" id="post_text" v-model="post.text"></textarea>
+                        <textarea class="form-control" rows="10" cols="5" @input="updatePostText" id="post_text" v-model="post.text"></textarea>
                     </div>
-                    <span class="red" v-if="error_permission">{{ error_permission }}</span>
-                    <span class="green" v-if="success_update">Post successfully updated!</span>
-                    <button type="submit" name="submit" class="btn-primary">Update</button>
+                    <button type="submit" name="submit" class="btn btn-primary">Update</button>
                 </form>
 
             </div>
@@ -35,8 +39,7 @@
                     title: '',
                     text: ''
                 },
-                error_permission: '',
-                success_update: false
+                 errors: [],
             }
         },
         computed: {
@@ -52,15 +55,28 @@
             },
             ...mapActions('post', ['updatePost']),
             onUpdate() {
+
                 this.updatedPost.title = this.updatedPost.title ? this.updatedPost.title : this.post.title;
                 this.updatedPost.text = this.updatedPost.text ? this.updatedPost.text : this.post.text;
                 this.updatedPost.id = this.$route.params.id;
+
+                 if (this.title && this.text) {
+                    return true;
+                }
+
+                this.errors = [];
+
+                if (!this.updatedPost.title) {
+                    this.errors.push('Title required.');
+                }
+                if (!this.updatedPost.text) {
+                    this.errors.push('Text required.');
+                }
+
                 this.updatePost(this.updatedPost).then(() => {
-                    this.success_update = true;
-                }).catch((data) => {
-                    if (data.error) {
-                        this.error_permission = data.error;
-                    }
+                    this.$router.push({name: 'UserPostsList'});
+                }).catch(() => {
+                    //
                 });
             },
             updatePostTitle(e) {
@@ -78,15 +94,4 @@
     section {
         padding: 100px 0;
     }
-    .red {
-        color: red;
-        display: inline-block;
-        width: 100%;
-    }
-    .green {
-        color: green;
-        display: inline-block;
-        width: 100%;
-    }
-
 </style>

@@ -7,7 +7,7 @@
                         <img v-bind:src="post.image">
                     </div>
                     <div class="card-desc">
-                        <span class="text-muted"><i class="fa fa-clock-o"></i>{{ post.created_at }} by</span><strong> {{ post.author_name }}</strong>
+                        <span class="text-muted"><i class="fa fa-clock"></i> {{ post.created_at }} by</span><strong> {{ post.author_name }}</strong>
                         <h1>{{ post.title }}</h1>
                         <p>{{ post.text }}</p>
 

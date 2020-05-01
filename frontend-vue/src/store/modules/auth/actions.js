@@ -1,4 +1,4 @@
-import httpService from '../../../services/common/httpService';
+import httpService from '@/services/common/httpService';
 
 export default {
 

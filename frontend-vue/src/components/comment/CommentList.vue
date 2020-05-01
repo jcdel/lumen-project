@@ -2,18 +2,17 @@
 
     <div class="col-sm-12">
         <div class="comments-block">
-            <h3 class="text-center">Comment</h3>
             <div v-for="comment in comments" :key="comment.id">
                 <div class="single-post text-left">
                     <span class="font-weight-bold author-name">{{ comment.author_name }}</span>
-                    <span>{{ comment.created_at }}</span>
+                    <span><i class="fa fa-clock"></i> {{ comment.created_at }}</span>
                     <p>{{ comment.text }}</p>
                 </div>
             </div>
             <div class="new-comment-block">
                 <h3 class="text-center">Leave a Comment</h3>
                 <textarea v-model="newComment.text" placeholder="Write a comment"></textarea>
-                <button @click="onAddComment" class="btn-primary">Submit</button>
+                <button @click="onAddComment" class="btn btn-primary">Submit</button>
             </div>
 
         </div>

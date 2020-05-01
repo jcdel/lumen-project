@@ -1,4 +1,4 @@
-import httpService from '../../../services/common/httpService';
+import httpService from '@/services/common/httpService';
 
 export default {
 
@@ -16,11 +16,11 @@ export default {
             });
         });
     },
-    getPostsByUser: (context) => {
+    getPostsByUser: (context, page) => {
 
         return new Promise((resolve, reject) => {
 
-            httpService.get('posts/me')
+            httpService.get('posts/me?page=' + page)
                 .then(function (res) {
                     context.commit('SET_USER_POSTS', res.data);
                     resolve(res);

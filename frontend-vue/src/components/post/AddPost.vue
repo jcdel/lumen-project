@@ -1,8 +1,14 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-8">
                 <form action="" name="post-edit" v-on:submit.prevent="onAddPost">
+                    <p v-if="errors.length">
+                        <b>Please correct the following error(s):</b>
+                        <ul>
+                            <li class="alert alert-danger" role="alert" v-for="error in errors" v-bind:key="error" v-bind:error="error">{{ error }}</li>
+                        </ul>
+                    </p>
                     <div class="form-group">
                         <label for="title">Title</label>
                         <input type="text" v-model="newPost.title" id="title"
@@ -15,9 +21,9 @@
                     </div>
                     <div class="form-group">
                         <label for="post_text">Text</label>
-                        <textarea class="form-control" rows="25" cols="5" v-model="newPost.text" id="post_text"></textarea>
+                        <textarea class="form-control" rows="10" cols="5" v-model="newPost.text" id="post_text"></textarea>
                     </div>
-                    <button type="submit" name="submit" class="btn-primary">Create</button>
+                    <button type="submit" name="submit" class="btn btn-primary">Create</button>
                 </form>
 
             </div>
@@ -40,6 +46,7 @@
                     image: '',
                     text: ''
                 },
+                errors: [],
             }
         },
         computed: {
@@ -49,11 +56,30 @@
 
             ...mapActions('post', ['addPost']),
             onAddPost() {
+
+                if (this.title && this.text && this.image) {
+                    return true;
+                }
+
+                this.errors = [];
+
+                if (!this.newPost.title) {
+                    this.errors.push('Title required.');
+                }
+                if (!this.newPost.image) {
+                    this.errors.push('Image required.');
+                }
+                if (!this.newPost.text) {
+                    this.errors.push('Text required.');
+                }
+
                 this.newPost.user_id = this.getAuthenticatedUser.id;
                 this.addPost(this.newPost).then(() => {
                     this.$router.push({name: 'UserPostsList'});
-                });
-            },
+                 });
+            
+        },
+
         },
 
     };
