@@ -21,7 +21,7 @@ $factory->define(Post::class, function (Faker $faker) {
     return [
         'title' => $faker->sentence(3),
         'text' => $faker->text(3000),
-        'image' => $faker->imageUrl($width = 1900, $height = 840),
+        'image' => $faker->imageUrl($width = 300, $height = 200),
         'user_id' => User::latest()->first()
     ];
 });

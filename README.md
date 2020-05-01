@@ -62,7 +62,7 @@ npm install
 ng serve -o
 ```
 
-Login credentials for testing the API:
+Login credentials:
 
 Login: jc@mail.com
-Password: admin
+Password: password
