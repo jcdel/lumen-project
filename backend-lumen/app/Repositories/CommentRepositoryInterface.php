@@ -7,5 +7,5 @@ use App\Entities\Comment;
 interface CommentRepositoryInterface
 {
     public function getPostsComments(int $post_id);
-    public function saveComment(Comment $comment);
+    public function save(Comment $comment);
 }
