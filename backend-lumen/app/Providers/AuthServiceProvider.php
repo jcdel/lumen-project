@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Entities\Post;
+use App\Entities\Comment;
 use App\Policies\PostPolicy;
+use App\Policies\CommentPolicy;
 use App\Entities\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -28,6 +30,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         Gate::policy(Post::class, PostPolicy::class);
+        Gate::policy(Comment::class, CommentPolicy::class);
         
         // Here you may define how you wish users to be authenticated for your Lumen
         // application. The callback which receives the incoming request instance

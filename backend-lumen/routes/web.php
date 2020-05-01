@@ -51,6 +51,8 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
         
                 $router->get('/{post_id}/comments', 'CommentController@show');
                 $router->post('/{post_id}/comments', 'CommentController@store');
+                $router->put('/{id}/comments', 'CommentController@update');
+                $router->delete('/{id}/comments', 'CommentController@delete');
         
             });
     

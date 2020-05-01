@@ -8,6 +8,7 @@ use App\Http\Resources\Comment\Comment as CommentResource;
 use App\Http\Resources\Comment\CommentCollection;
 use App\Repositories\CommentRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -54,6 +55,50 @@ class CommentController extends Controller
         );
 
         return new CommentResource($comment);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+    */
+    public function update(Request $request, $id)
+    {
+        $comment = Comment::find($id);
+
+        $this->validate($request, [
+            'text' => 'required'
+        ]);
+
+        if (Auth::user()->can('update', $comment)) {
+
+            $comment->text = $request->text;
+
+            return new CommentResource($this->comment->save($comment));
+        } else {
+            return response()->json(['error' => 'You are not allowed to update this comment.'], 403);
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+    */
+    public function delete($id)
+    {
+        $comment = Comment::find($id);
+
+        if (Auth::user()->can('delete', $comment)) {
+
+            $this->comment->delete($id);
+            return response()->json(['message'  => 'Comment has been successfully deleted.'], 200);
+        } else {
+            return response()->json(['message' => 'You are not allowed to delete this comment.'], 403);
+        }
     }
 
 }

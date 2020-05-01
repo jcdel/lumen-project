@@ -19,4 +19,9 @@ class CommentRepository implements CommentRepositoryInterface
 
          return $comment;
      }
+
+    public function delete(int $id): void
+    {
+        Comment::destroy($id);
+    }
 }
