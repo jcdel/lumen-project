@@ -64,5 +64,5 @@ ng serve -o
 
 Login credentials:
 
-Login: jc@mail.com
+Login: john@mail.com
 Password: password
