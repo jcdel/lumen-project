@@ -5,11 +5,10 @@ export default {
     getComments: (context, post_id) => {
 
         return new Promise((resolve, reject) => {
-
             httpService.get('posts/' + post_id + '/comments')
                 .then(function (res) {
 
-                    context.commit('SET_COMMENTS', res.data.data);
+                    context.commit('SET_COMMENTS', res.data);
                     resolve(res);
 
                 }).catch(function (err) {
@@ -25,7 +24,7 @@ export default {
                 text: comment.text
             })
                 .then((res) => {
-                    context.commit('ADD_COMMENT', res.data.data);
+                    context.commit('ADD_COMMENT', res.data);
                     resolve(res);
                 })
                 .catch((err) => {
@@ -33,5 +32,17 @@ export default {
                 });
         });
     },
+    deleteComment: (context, comment_id) => {
 
+        return new Promise((resolve, reject) => {
+            httpService.delete('posts/' + comment_id +'/comments')
+                .then(function (res) {
+                    context.commit('DELETE_COMMENT', comment_id);
+                    resolve(res);
+
+                }).catch(function (err) {
+                reject(err);
+            });
+        });
+    },
 };

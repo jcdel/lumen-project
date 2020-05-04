@@ -6,12 +6,20 @@ export default {
         state.comments = Object.assign({}, comments);
     },
     ADD_COMMENT: (state, comment) => {
+        
         let newComment = {};
-        newComment[comment.id] = comment;
-        state.comments = Object.assign(
+        newComment[comment.data.id] = comment.data;
+        state.comments.data = Object.assign(
             {},
-            state.comments,
+            state.comments.data,
             newComment
         );
     },
+    DELETE_COMMENT: (state, id) => {
+
+        const comments = state.comments.data;
+        state.comments.data = comments.filter(function (comment) {
+            return comment.id != id;
+        });
+    }
 };

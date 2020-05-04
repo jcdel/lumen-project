@@ -56,7 +56,7 @@
 
             onLogin() {
 
-                this.login(this.user).then((res) => {
+                this.login(this.user).then(() => {
 
                     this.$router.push({name: 'home'});
                 }).catch((data) => {
