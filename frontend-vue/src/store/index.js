@@ -5,7 +5,6 @@ import auth from './modules/auth/index';
 import post from './modules/post/index';
 import comment from './modules/comment/index';
 
-
 Vue.use(Vuex);
 
 export default new Vuex.Store({

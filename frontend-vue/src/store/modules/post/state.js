@@ -1,6 +1,6 @@
 export default {
-    allPosts: {},
-    userPosts: {},
-    post: {}
-
+    all_posts: {},
+    user_posts: {},
+    single_post: {},
+    photos: {},
 };

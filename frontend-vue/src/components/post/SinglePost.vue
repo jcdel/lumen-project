@@ -4,17 +4,17 @@
             <div class="col-sm-12">
                 <div class="card-content">
                     <div class="card-img">
-                        <img v-bind:src="post.image">
+                        <img v-bind:src="single_post.image">
                     </div>
                     <div class="card-desc">
-                        <span class="text-muted"><i class="fa fa-clock"></i> {{ post.created_at }} by</span><strong> {{ post.author_name }}</strong>
-                        <h1>{{ post.title }}</h1>
-                        <p>{{ post.text }}</p>
+                        <span class="text-muted"><i class="fa fa-clock"></i> {{ single_post.created_at }} by</span><strong> {{ single_post.author_name }}</strong>
+                        <h1>{{ single_post.title }}</h1>
+                        <p>{{ single_post.text }}</p>
 
                     </div>
                 </div>
             </div>
-            <CommentList :post_id="post.id"></CommentList>
+            <CommentList :post_id="single_post.id"></CommentList>
         </div>
     </div>
 </template>
@@ -26,7 +26,7 @@
     export default {
         name: 'SinglePost',
         computed: {
-            ...mapState('post', ['post']),
+            ...mapState('post', ['single_post']),
         },
         created() {
             const postId = this.$route.params.id;

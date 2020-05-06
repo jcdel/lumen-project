@@ -14,26 +14,28 @@
                         <input type="text" v-model="newPost.title" id="title"
                                class="form-control"/>
                     </div>
-                     <div class="form-group">
-                        <label for="image">Image Link</label>
-                        <input type="text" v-model="newPost.image" id="image"
-                               class="form-control"/>
+                    <div class="form-group">
+                        <label for="image">Image</label>
+                        <select v-model="newPost.image" class="form-control" id="selectPhoto">
+                            <option disabled value="">Please select one</option>
+                            <option v-for="photo in photos" :key="photo.id" v:bind="photo.download_url">
+                                {{ photo.download_url }}
+                            </option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="post_text">Text</label>
-                        <textarea class="form-control" rows="10" cols="5" v-model="newPost.text" id="post_text"></textarea>
+                        <textarea class="form-control" rows="7" cols="5" v-model="newPost.text" id="post_text"></textarea>
                     </div>
                     <button type="submit" name="submit" class="btn btn-primary">Create</button>
                 </form>
-
             </div>
-
         </div>
     </div>
 </template>
 
 <script>
-    import {mapGetters,mapActions} from 'vuex';
+    import {mapGetters,mapActions,mapState} from 'vuex';
 
     export default {
 
@@ -51,9 +53,15 @@
         },
         computed: {
             ...mapGetters('auth', ['getAuthenticatedUser']),
+            ...mapState('post', ['photos'])
+        },
+        created () {
+            this.getPhoto();
         },
         methods: {
-
+            getPhoto() {
+                this.$store.dispatch('post/getPhoto');
+            },
             ...mapActions('post', ['addPost']),
             onAddPost() {
 
@@ -77,8 +85,7 @@
                 this.addPost(this.newPost).then(() => {
                     this.$router.push({name: 'UserPostsList'});
                  });
-            
-        },
+            },
 
         },
 
@@ -89,5 +96,4 @@
     section {
         padding: 100px 0;
     }
-
 </style>

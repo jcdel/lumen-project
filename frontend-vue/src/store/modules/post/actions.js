@@ -5,9 +5,9 @@ export default {
     getPosts: (context, page) => {
 
         return new Promise((resolve, reject) => {
-
             httpService.get('posts?page=' + page)
                 .then(function (res) {
+                    //console.log(res.data);
                     context.commit('SET_POSTS', res.data);
                     resolve(res);
 
@@ -19,7 +19,6 @@ export default {
     getPostsByUser: (context, page) => {
 
         return new Promise((resolve, reject) => {
-
             httpService.get('posts/me?page=' + page)
                 .then(function (res) {
                     context.commit('SET_USER_POSTS', res.data);
@@ -30,10 +29,10 @@ export default {
             });
         });
     },
+
     addPost: (context, post) => {
 
         return new Promise((resolve, reject) => {
-
             httpService.post('posts', {
                 user_id: post.user_id,
                 title: post.title,
@@ -41,7 +40,7 @@ export default {
                 text: post.text,
             })
                 .then(function (res) {
-
+                    context.dispatch('getPhoto');
                     resolve(res);
 
                 }).catch((error) => {
@@ -49,13 +48,27 @@ export default {
             });
         });
     },
+
+    getPhoto: (context) => {
+
+        return new Promise((resolve, reject) => {
+            httpService.getPhoto()
+                .then(function (res) {
+                    context.commit('SET_PHOTO', res.data);
+                    resolve(res);
+                }).catch(function (error) {
+                    reject(error);
+                });
+        });
+    },
+    
     updatePost: (context, post) => {
 
         return new Promise((resolve, reject) => {
-
             httpService.put('posts/' + post.id, {
                 title: post.title,
                 text: post.text,
+                image: post.image,
             })
                 .then(function (res) {
 
@@ -97,6 +110,4 @@ export default {
             });
         });
     },
-
-
 };

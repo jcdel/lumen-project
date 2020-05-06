@@ -2,16 +2,13 @@ const TOKEN_EXPIRED = 'token_expired';
 
 export default {
     auth: store => (to, from, next) => {
-
         if (!store.getters['auth/hasToken']()) {
 
             next({
                 path: '/login'
             });
-
             return;
         }
-
 
         fetchUser(store)
             .then(() => {
@@ -57,19 +54,20 @@ const refreshAuth = (store) => {
 const fetchUser = (store) => {
 
     return new Promise((resolve, reject) => {
-
         store.dispatch('auth/fetchAuthenticatedUser')
             .then(() => {
                  resolve();
             })
             .catch(response => {
+
                 if (response.code === TOKEN_EXPIRED) {
+
+                    console.log('expiresss');
                     refreshAuth(store);
                 } else {
                     reject();
                 }
             });
     });
-
-
+    
 };

@@ -3,7 +3,7 @@
     <div class="container">
 
         <div class="col-md-12 user-posts ">
-            <div v-for="post in userPosts.data" :key="post.id">
+            <div v-for="post in user_posts.data" :key="post.id">
 
 
                 <div class="row">
@@ -37,7 +37,7 @@
 
         </div>
 
-        <pagination  :data="userPosts" @pagination-change-page="loadPosts"></pagination>
+        <pagination  :data="user_posts" @pagination-change-page="loadPosts"></pagination>
     </div>
 </template>
 
@@ -54,7 +54,7 @@
             }
         },
         computed: {
-            ...mapState('post', ['userPosts'])
+            ...mapState('post', ['user_posts'])
         },
         methods: {
             ...mapActions({

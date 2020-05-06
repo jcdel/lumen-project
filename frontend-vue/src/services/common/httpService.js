@@ -42,6 +42,11 @@ export class HttpService {
     delete(url, params) {
         return this.axios.delete(url, params);
     }
+
+    getPhoto(url='https://picsum.photos/v2/list?limit=20') {
+
+        return this.axios.get(url);
+    }
 }
 
 export default new HttpService();

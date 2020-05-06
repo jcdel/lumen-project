@@ -1,13 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import store from '../store/index';
+import store from '@/store/index';
 import middlewares from './middlewares';
-import PostsList from '../pages/PostsList.vue'
-import UserPostsList from '../pages/UserPostsList.vue'
-import SinglePost from '../pages/SinglePost.vue'
-import EditPost from '../pages/EditPost.vue'
-import AddPost from '../pages/AddPost.vue'
-import LoginPage from '../pages/LoginPage.vue'
+import PostsList from '@/pages/PostsList.vue'
+import UserPostsList from '@/pages/UserPostsList.vue'
+import SinglePost from '@/pages/SinglePost.vue'
+import EditPost from '@/pages/EditPost.vue'
+import AddPost from '@/pages/AddPost.vue'
+import LoginPage from '@/pages/LoginPage.vue'
+import NotFound from '@/components/NotFound.vue'
 
 Vue.use(Router)
 
@@ -16,6 +17,7 @@ const middleware = handler => (
 );
 
 export default new Router({
+    
     mode: 'history',
     base: '/',
     scrollBehavior: () => ({y: 0}),
@@ -59,7 +61,10 @@ export default new Router({
                 component: LoginPage
             },
 
-
-        ])
+        ]),
+        { 
+            path: '*',
+            component: NotFound 
+        }
     ]
 })

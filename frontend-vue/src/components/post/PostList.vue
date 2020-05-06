@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="col-md-3" v-for="post in allPosts.data" :key="post.id">
+            <div class="col-md-3" v-for="post in all_posts.data" :key="post.id">
                 <div class="card-content">
                     <div class="card-img">
                         <img :src="post.image">
@@ -15,7 +15,7 @@
                     </div>
                 </div>
             </div>
-            <pagination  :data="allPosts" @pagination-change-page="loadPosts"></pagination>
+            <pagination  :data="all_posts" @pagination-change-page="loadPosts"></pagination>
         </div>
     </div>
 </template>
@@ -23,11 +23,11 @@
 <script>
     import { mapState } from 'vuex';
     import pagination from 'laravel-vue-pagination';
-
+    
     export default {
         name: 'PostList',
         computed: {
-            ...mapState('post', ['allPosts']),
+            ...mapState('post', ['all_posts']),
         },
         methods: {
             loadPosts(page = 1) {
