@@ -12,12 +12,12 @@ class PostRepository implements PostRepositoryInterface
 
     public function getPosts()
     {
-        return Post::paginate(self::POST_LIMIT);
+        return Post::latest()->paginate(self::POST_LIMIT);
     }
 
     public function getPostByUserId(int $userId)
     {
-        return Post::where('user_id',$userId)->paginate(self::USER_POST_LIMIT);
+        return Post::where('user_id',$userId)->latest()->paginate(self::USER_POST_LIMIT);
     }
 
     public function getPost(int $id): Post
