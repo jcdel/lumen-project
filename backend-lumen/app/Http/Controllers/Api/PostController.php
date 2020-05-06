@@ -97,13 +97,15 @@ class PostController extends Controller
 
         $this->validate($request, [
             'title' => 'required',
-            'text' => 'required'
+            'text' => 'required',
+            'image' => 'required'
         ]);
 
         if (Auth::user()->can('update', $post)) {
 
             $post->title = $request->title;
             $post->text = $request->text;
+            $post->image = $request->image;
 
             return new PostResource($this->post->save($post));
         } else {
