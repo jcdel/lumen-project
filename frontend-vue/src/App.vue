@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="container">
-    <h3>Welcome to My App!</h3>
+    <h3>Welcome to my VUE JS App!</h3>
     <navbar/>
     <router-view/>
   </div>
