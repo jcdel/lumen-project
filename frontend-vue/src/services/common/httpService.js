@@ -9,7 +9,7 @@ export class HttpService {
             'Content-Type': 'application/json'
         }
         this.axios = axios.create({
-            baseURL: 'http://lumen-rest-api-jwt.test/api/v1'
+            baseURL: 'http://lumen-rest-api.local/api/v1'
         });
 
         this.axios.interceptors.request.use(
