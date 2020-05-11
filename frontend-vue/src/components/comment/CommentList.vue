@@ -54,16 +54,15 @@
             this.getComments(postId);
         },
         methods: {
+            
+            ...mapActions('comment', ['addComment', 'deleteComment']),
+
             getComments(postId) {
                 this.$store.dispatch('comment/getComments', postId);
             },
              onDelete(commentId) {
                 this.deleteComment(commentId);
             },
-            ...mapActions('comment', ['addComment']),
-            ...mapActions({
-                deleteComment: 'comment/deleteComment',
-            }),
             onAddComment() {
 
                 if (this.text) {

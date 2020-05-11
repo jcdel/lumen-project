@@ -2,7 +2,6 @@
 export default {
 
     SET_COMMENTS: (state, comments) => {
-
         state.comments = Object.assign({}, comments);
     },
     ADD_COMMENT: (state, comment) => {
