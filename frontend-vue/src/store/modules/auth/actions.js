@@ -2,63 +2,53 @@ import httpService from '@/services/common/httpService';
 
 export default {
 
-    login: (context, user) => {
-        return new Promise((resolve, reject) => {
-
-            httpService.post('auth/login', {
+    async login(context, user){
+        try {
+            const result = await httpService.post('auth/login', {
                 email: user.email,
                 password: user.password,
-            })
-                .then(function (res) {
-                    
-                    context.commit('USER_LOGIN', res.data);
-                    context.dispatch('fetchAuthenticatedUser');
-                    resolve(res);
-
-                }).catch(function (err) {
-                    reject(err.response.data);
-                });
-        });
-    },
-    logout: (context) => {
-        return new Promise((resolve, reject) => {
-            httpService.post('auth/logout')
-                .then(function (res) {
-                    context.commit('USER_LOGOUT', res);
-                    resolve(res);
-                }).catch(function (err) {
-                    reject(err);
-                });
-        });
-    },
-
-    refreshToken: (context, email) => {
-        return new Promise((resolve, reject) => {
-            httpService.post('/auth/refresh', {
-                params: {email}
-            }).then(function (res) {
-                context.commit('REFRESH_TOKEN', res.data.data.access_token);
-                resolve(res);
-            }).catch(function (err) {
-                reject(err);
             });
-        });
+            context.commit('USER_LOGIN', result.data);
+            context.dispatch('fetchAuthenticatedUser');
+
+            return Promise.resolve(result);
+        } catch(err) {
+            return Promise.reject(err.response.data);
+        }
     },
 
-    fetchAuthenticatedUser: (context) => {
+    async logout(context){
+        try {
+            const result = await httpService.post('auth/logout');
+            context.commit('USER_LOGOUT', result);
 
-        return new Promise((resolve, reject) => {
-
-            httpService.get('/auth/me')
-                .then(function (res) {
-
-                    context.commit('SET_AUTHENTICATED_USER', res.data);
-                    resolve(res);
-                }).catch(function (error) {
-                    reject(error);
-                });
-        });
+            return Promise.resolve(result);
+        } catch(err) {
+            return Promise.reject(err);
+        }
     },
 
+    async refreshToken(context, email){
+        try {
+            const result = await httpService.post('/auth/refresh', {
+                params: {email}
+            });
+            context.commit('REFRESH_TOKEN', result.data.data.access_token);
 
+            return Promise.resolve(result);
+        } catch(err) {
+            return Promise.reject(err);
+        }
+    },
+
+    async fetchAuthenticatedUser(context){
+        try {
+            const result = await httpService.get('/auth/me');
+            context.commit('SET_AUTHENTICATED_USER', result.data);
+
+            return Promise.resolve(result);
+        } catch(err) {
+            return Promise.reject(err);
+        }
+    },
 };

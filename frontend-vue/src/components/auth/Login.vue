@@ -50,9 +50,8 @@
             };
         },
         methods: {
-            ...mapActions({
-                login: 'auth/login'
-            }),
+            
+            ...mapActions('auth', ['login']),
 
             onLogin() {
 

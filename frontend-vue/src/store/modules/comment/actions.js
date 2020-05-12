@@ -1,48 +1,40 @@
 import httpService from '@/services/common/httpService';
 
-export default {
+ export default {
 
-    getComments: (context, post_id) => {
+    async getComments(context, post_id){
+        try {
+            const result = await httpService.get('posts/' + post_id + '/comments');
+            context.commit('SET_COMMENTS', result.data);
 
-        return new Promise((resolve, reject) => {
-            httpService.get('posts/' + post_id + '/comments')
-                .then(function (res) {
-
-                    context.commit('SET_COMMENTS', res.data);
-                    resolve(res);
-
-                }).catch(function (err) {
-                reject(err);
-            });
-        });
+            return Promise.resolve(result);
+        } catch(err) {
+            return Promise.reject(err);
+        }
     },
-    addComment: (context, comment) => {
 
-        return new Promise((resolve, reject) => {
-            httpService.post('posts/' + comment.post_id + '/comments', {
+    async addComment(context, comment){
+        try {
+            const result = await httpService.post('posts/' + comment.post_id + '/comments', {
                 user_id: comment.user_id,
                 text: comment.text
-            })
-                .then((res) => {
-                    context.commit('ADD_COMMENT', res.data);
-                    resolve(res);
-                })
-                .catch((err) => {
-                    reject(err);
-                });
-        });
-    },
-    deleteComment: (context, comment_id) => {
-
-        return new Promise((resolve, reject) => {
-            httpService.delete('posts/' + comment_id +'/comments')
-                .then(function (res) {
-                    context.commit('DELETE_COMMENT', comment_id);
-                    resolve(res);
-
-                }).catch(function (err) {
-                reject(err);
             });
-        });
+            context.commit('ADD_COMMENT', result.data);
+
+            return Promise.resolve(result);
+        } catch(err) {
+            return Promise.reject(err);
+        }
+    },
+
+    async deleteComment(context, comment_id){
+        try {
+            const result = await httpService.delete('posts/' + comment_id +'/comments');
+            context.commit('DELETE_COMMENT', comment_id);
+
+            return Promise.resolve(result);
+        } catch(err) {
+            return Promise.reject(err);
+        }
     },
 };

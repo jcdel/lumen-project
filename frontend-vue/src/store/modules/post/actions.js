@@ -2,112 +2,89 @@ import httpService from '@/services/common/httpService';
 
 export default {
 
-    getPosts: (context, page) => {
+    async getPosts(context, page){
+        try {
+            const result = await httpService.get('posts?page=' + page);
+            context.commit('SET_POSTS', result.data);
 
-        return new Promise((resolve, reject) => {
-            httpService.get('posts?page=' + page)
-                .then(function (res) {
-                    //console.log(res.data);
-                    context.commit('SET_POSTS', res.data);
-                    resolve(res);
-
-                }).catch(function (err) {
-                reject(err);
-            });
-        });
-    },
-    getPostsByUser: (context, page) => {
-
-        return new Promise((resolve, reject) => {
-            httpService.get('posts/me?page=' + page)
-                .then(function (res) {
-                    context.commit('SET_USER_POSTS', res.data);
-                    resolve(res);
-
-                }).catch(function (err) {
-                reject(err);
-            });
-        });
+            return Promise.resolve(result);
+        } catch(err) {
+            return Promise.reject(err);
+        }
     },
 
-    addPost: (context, post) => {
+    async getPostsByUser(context, page){
+        try {
+            const result = await httpService.get('posts/me?page=' + page);
+            context.commit('SET_USER_POSTS', result.data);
 
-        return new Promise((resolve, reject) => {
-            httpService.post('posts', {
+            return Promise.resolve(result);
+        } catch(err) {
+            return Promise.reject(err);
+        }
+    },
+
+    async addPost(context, post){
+        try {
+            const result = await httpService.post('posts', {
                 user_id: post.user_id,
                 title: post.title,
                 image: post.image,
                 text: post.text,
-            })
-                .then(function (res) {
-                    context.dispatch('getPhoto');
-                    resolve(res);
-
-                }).catch((error) => {
-                reject(error.response.data);
             });
-        });
+            context.dispatch('getPhoto');
+
+            return Promise.resolve(result);
+        } catch(err) {
+            return Promise.reject(err.response.data);
+        }
     },
 
-    getPhoto: (context) => {
+    async getPhoto(context){
+        try {
+            const result = await httpService.getPhoto();
+            context.commit('SET_PHOTO', result.data);
 
-        return new Promise((resolve, reject) => {
-            httpService.getPhoto()
-                .then(function (res) {
-                    context.commit('SET_PHOTO', res.data);
-                    resolve(res);
-                }).catch(function (error) {
-                    reject(error);
-                });
-        });
+            return Promise.resolve(result);
+        } catch(err) {
+            return Promise.reject(err);
+        }
     },
-    
-    updatePost: (context, post) => {
 
-        return new Promise((resolve, reject) => {
-            httpService.put('posts/' + post.id, {
+    async updatePost(context, post){
+        try {
+            const result = await  httpService.put('posts/' + post.id, {
                 title: post.title,
                 text: post.text,
                 image: post.image,
-            })
-                .then(function (res) {
-
-                    context.commit('SET_POST', res.data.data);
-                    resolve(res);
-
-                }).catch((error) => {
-                reject(error.response.data);
             });
-        });
+            context.commit('SET_POST', result.data.data);
+
+            return Promise.resolve(result);
+        } catch(err) {
+            return Promise.reject(err.response.data);
+        }
     },
-    getPost: (context, post_id) => {
 
-        return new Promise((resolve, reject) => {
+    async getPost(context, post_id){
+        try {
+            const result = await httpService.get('posts/' + post_id);
+            context.commit('SET_POST', result.data.data);
 
-            httpService.get('posts/' + post_id)
-                .then(function (res) {
-
-                    context.commit('SET_POST', res.data.data);
-                    resolve(res);
-
-                }).catch(function (err) {
-                reject(err);
-            });
-        });
+            return Promise.resolve(result);
+        } catch(err) {
+            return Promise.reject(err.response.data);
+        }
     },
-    deletePost: (context, post_id) => {
 
-        return new Promise((resolve, reject) => {
+    async deletePost(context, post_id){
+        try {
+            const result = await httpService.delete('posts/' + post_id);
+            context.commit('DELETE_POST', post_id);
 
-            httpService.delete('posts/' + post_id)
-                .then(function (res) {
-
-                    context.commit('DELETE_POST', post_id);
-                    resolve(res);
-
-                }).catch(function (err) {
-                reject(err);
-            });
-        });
+            return Promise.resolve(result);
+        } catch(err) {
+            return Promise.reject(err);
+        }
     },
 };
