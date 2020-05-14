@@ -7,11 +7,13 @@ import { library, dom } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import router from './router/index'
 import store from './store/index'
+import DateFilter from "./services/common/dateFilter";
 
 library.add(fas)
 dom.watch()
 
 Vue.config.productionTip = false;
+Vue.filter("date", DateFilter);
 
 new Vue({
   router,

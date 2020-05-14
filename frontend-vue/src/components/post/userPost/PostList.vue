@@ -8,7 +8,7 @@
 
                 <div class="row">
                     <div class="col-md-12 post-header-line text-left">
-                        <i class="fa fa-clock"></i> {{ post.created_at }}
+                        <i class="fa fa-clock"></i> {{ post.created_at | date }}
                     </div>
                 </div>
                 <div class="row post-content">

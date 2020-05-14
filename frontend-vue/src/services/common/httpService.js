@@ -1,5 +1,6 @@
 import axios from 'axios';
 import storageService from './storageService';
+import apiURL from './config.js';
 
 export class HttpService {
 
@@ -9,7 +10,7 @@ export class HttpService {
             'Content-Type': 'application/json'
         }
         this.axios = axios.create({
-            baseURL: 'http://lumen-rest-api.local/api/v1'
+            baseURL: apiURL.API_URL
         });
 
         this.axios.interceptors.request.use(
@@ -43,7 +44,7 @@ export class HttpService {
         return this.axios.delete(url, params);
     }
 
-    getPhoto(url='https://picsum.photos/v2/list?limit=20') {
+    getPhoto(url = apiURL.PHOTO_API_URL) {
 
         return this.axios.get(url);
     }

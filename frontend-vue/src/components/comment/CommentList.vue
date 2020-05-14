@@ -5,7 +5,7 @@
             <div v-for="comment in comments.data" :key="comment.id">
                 <div class="single-post text-left">
                     <span class="font-weight-bold author-name">{{ comment.author_name }}</span>
-                    {{ comment.created_at }}
+                    {{ comment.created_at | date }}
                     <p>{{ comment.text }}</p>
                     <span><button type="button" class="btn btn-danger" @click="onDelete(comment.id)">
                         Delete
